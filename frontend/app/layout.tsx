@@ -11,7 +11,7 @@ import Footer from "./interactions/Footer";
 import "./interactions/interactions.css";
 
 export const metadata: Metadata = {
-  title: "Aurelia Properties — Elevating the Urban Skyline",
+  title: "Building Solutions — Elevating the Urban Skyline",
   description: "Premium residential and commercial developments shaped for modern living.",
 };
 

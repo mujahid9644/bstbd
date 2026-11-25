@@ -35,7 +35,7 @@ export function SiteHeader() {
         className={`site-header${isHidden ? " is-hidden" : ""}${isScrolled ? " is-scrolled" : ""}`}
         data-menu-open={open}
       >
-        <Link className="brand" href="/" aria-label="Aurelia Properties home"><span className="brand-mark">A</span><span>AURELIA<br />PROPERTIES</span></Link>
+        <Link className="brand" href="/" aria-label="Building Solutions home"><span className="brand-mark">B</span><span>BUILDING<br />SOLUTIONS</span></Link>
         <button ref={menuButtonRef} className="menu-button" data-cursor="link" data-magnetic onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open}>MENU <span className="menu-lines"><i /><i /></span></button>
       </header>
       <SlideNav items={navigation} open={open} onClose={closeMenu} onSearch={searchProjects} />

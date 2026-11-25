@@ -25,7 +25,7 @@ function waitForHeroImage() {
   });
 }
 
-export default function PageLoader({ logo = "AURELIA" }: { logo?: string }) {
+export default function PageLoader({ logo = "BUILDING SOLUTIONS" }: { logo?: string }) {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {

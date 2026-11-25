@@ -7,9 +7,9 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-main">
         <div className="footer-brand-group">
-          <Link className="brand" href="/" aria-label="Aurelia Properties home">
-            <span className="brand-mark">A</span>
-            <span>AURELIA<br />PROPERTIES</span>
+          <Link className="brand" href="/" aria-label="Building Solutions home">
+            <span className="brand-mark">B</span>
+            <span>BUILDING<br />SOLUTIONS</span>
           </Link>
         </div>
         <nav className="footer-nav" aria-label="Footer navigation">
@@ -39,7 +39,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© 2026 Aurelia Properties</span>
+        <span>© 2026 Building Solutions</span>
         <Link href="/privacy-policy">Privacy Policy</Link>
       </div>
     </footer>
