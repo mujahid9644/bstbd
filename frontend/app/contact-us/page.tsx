@@ -1,0 +1,3 @@
+import { PageHero } from '../components/PageSections';
+
+export default function Page() { return <><PageHero title="Contact Us" eyebrow="Let’s connect" image="/images/about.jpg" /><section className="editorial"><div className="editorial-grid"><div><p className="eyebrow">Enquiries</p><h2>Start a conversation.</h2></div><form className="form-grid"><input aria-label="Name" placeholder="Name" /><input aria-label="Email" type="email" placeholder="Email" /><input aria-label="Phone" placeholder="Phone" /><input aria-label="Subject" placeholder="Subject" /><textarea aria-label="Message" placeholder="How can we help?" /><button className="text-link" type="button">Send enquiry →</button></form></div></section></>; }

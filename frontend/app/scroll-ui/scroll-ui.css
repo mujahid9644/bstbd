@@ -1,0 +1,130 @@
+:root {
+  --scroll-ui-button-size: 64px;
+  --scroll-ui-right: 24px;
+  --scroll-ui-bottom: calc(24px + env(safe-area-inset-bottom));
+  --scroll-ui-gap: 16px;
+}
+
+.scroll-ui-controls {
+  position: fixed;
+  z-index: 80;
+  right: var(--scroll-ui-right);
+  bottom: var(--scroll-ui-bottom);
+  width: var(--scroll-ui-button-size);
+  height: var(--scroll-ui-button-size);
+  pointer-events: none;
+}
+
+.scroll-ui-button {
+  position: fixed;
+  right: var(--scroll-ui-right);
+  display: grid;
+  width: var(--scroll-ui-button-size);
+  height: var(--scroll-ui-button-size);
+  place-items: center;
+  padding: 0;
+  border: 1.5px solid rgb(255 255 255 / 78%);
+  border-radius: 50%;
+  background: rgb(21 23 28 / 24%);
+  color: #fff;
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  mix-blend-mode: normal;
+  cursor: pointer;
+  pointer-events: auto;
+  transition:
+    transform 0.35s cubic-bezier(0.77, 0, 0.18, 1),
+    box-shadow 0.35s ease,
+    opacity 0.4s ease,
+    visibility 0s linear;
+}
+
+.scroll-ui-button svg {
+  width: 25px;
+  height: 25px;
+}
+
+.whatsapp-button {
+  bottom: var(--scroll-ui-bottom);
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.whatsapp-button.is-entered {
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.77, 0, 0.18, 1),
+    box-shadow 0.35s ease;
+}
+
+.back-to-top-button {
+  bottom: calc(
+    24px + env(safe-area-inset-bottom) + var(--scroll-ui-button-size) + var(--scroll-ui-gap)
+  );
+}
+
+.back-to-top-button.is-visible {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s cubic-bezier(0.77, 0, 0.18, 1),
+    visibility 0s linear;
+}
+
+.back-to-top-button.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition:
+    opacity 1.2s ease-out,
+    transform 1.2s ease-out,
+    visibility 0s linear 1.2s;
+}
+
+.scroll-ui-button:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 7px rgb(255 255 255 / 12%);
+}
+
+.back-to-top-button.is-hidden:hover {
+  transform: translateY(12px);
+}
+
+.scroll-ui-button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+@media (max-width: 639px) {
+  :root {
+    --scroll-ui-button-size: 52px;
+    --scroll-ui-right: 24px;
+  }
+
+  .scroll-ui-button svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-ui-button,
+  .whatsapp-button.is-entered,
+  .back-to-top-button.is-visible,
+  .back-to-top-button.is-hidden {
+    transition:
+      opacity 0.12s ease,
+      visibility 0s linear 0.12s;
+    transform: none;
+  }
+
+  .scroll-ui-button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}

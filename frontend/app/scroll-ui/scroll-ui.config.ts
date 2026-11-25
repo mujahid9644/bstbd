@@ -1,0 +1,18 @@
+export const SCROLL_UI_CONFIG = {
+  directionThreshold: 8,
+  headerAlwaysVisibleBelow: 80,
+  headerTransition: 0.4,
+  backToTopThreshold: 300,
+  scrollingIdleDelay: 150,
+  backToTopIdleDelay: 1200,
+  backToTopFadeDuration: 1.2,
+  backToTopEnterDuration: 0.4,
+  whatsappEntranceDuration: 0.6,
+  buttonSize: 64,
+  mobileButtonSize: 52,
+  edgeOffset: 24,
+  buttonGap: 16,
+  scrollToTopDuration: 1,
+  whatsappPhoneNumber: "8801XXXXXXXXX",
+  whatsappDefaultMessage: "Hello, I'd like to know more.",
+} as const;

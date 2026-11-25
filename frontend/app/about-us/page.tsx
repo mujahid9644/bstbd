@@ -1,0 +1,5 @@
+import { PageHero, Editorial } from '../components/PageSections';
+
+export default function Page() {
+  return <><PageHero title="About Aurelia" eyebrow="Our company" image="/images/about.jpg" /><Editorial eyebrow="Built with intent" title="A modern vision for the city." copy="Aurelia brings architectural ambition, careful stewardship and enduring quality to the places people call home. Our work creates addresses that feel established from the moment they arrive."/><section className="editorial"><div className="content-grid"><article className="content-card"><h3>Our Story</h3><p>From a clear founding vision to a growing portfolio of landmark addresses.</p><a className="text-link" href="/about-us/our-story">Discover →</a></article><article className="content-card"><h3>Our Businesses</h3><p>Connected expertise across property, construction and investment.</p><a className="text-link" href="/about-us/our-businesses">Explore →</a></article><article className="content-card"><h3>Our Team</h3><p>Leadership shaped by design, technical discipline and partnership.</p><a className="text-link" href="/about-us/our-teams">Meet us →</a></article></div></section></>;
+}
