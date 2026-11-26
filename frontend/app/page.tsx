@@ -1,10 +1,9 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import RevealImage from "./motion/RevealImage";
 import SplitText, { getCharTrackingX } from "./motion/SplitText";
 import {
   MOTION_DURATION,
@@ -14,8 +13,24 @@ import {
 } from "./motion/motion.config";
 import { registerMotionPlugins } from "./motion/registerMotionPlugins";
 
+const projectVideoSources = ["/video/building2.mp4", "/video/building1.mp4"] as const;
+
 export default function Home() {
   const mainRef = useRef<HTMLElement>(null);
+  const [projectVideos, setProjectVideos] = useState<string[]>([
+    ...projectVideoSources,
+  ]);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const firstVideoIndex = Math.random() < 0.5 ? 0 : 1;
+      setProjectVideos([
+        projectVideoSources[firstVideoIndex],
+        projectVideoSources[1 - firstVideoIndex],
+      ]);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   useLayoutEffect(() => {
     const main = mainRef.current;
@@ -35,8 +50,7 @@ export default function Home() {
       context.add(() => {
         const hero = main.querySelector<HTMLElement>(".hero");
         const heroImage = main.querySelector<HTMLElement>(".home-hero-image");
-        const heroImageInner = heroImage?.querySelector("img");
-        const heroStrips = heroImage?.querySelectorAll("[data-reveal-strip]");
+        const heroImageInner = heroImage?.querySelector("video");
         const heroCharacters = hero?.querySelectorAll<HTMLElement>("[data-split-char-inner]");
         const heroKicker = hero?.querySelector(".hero-kicker");
         const heroLink = hero?.querySelector(".hero-content .text-link");
@@ -44,7 +58,6 @@ export default function Home() {
         if (
           !hero ||
           !heroImageInner ||
-          !heroStrips ||
           !heroCharacters ||
           !heroKicker ||
           !heroLink ||
@@ -61,11 +74,6 @@ export default function Home() {
         gsap.set(heroKicker, { y: 18, autoAlpha: 0 });
         gsap.set(heroLink, { y: 18, autoAlpha: 0 });
         gsap.set(heroImageInner, { autoAlpha: 0, scale: 1.15 });
-        gsap.set(heroStrips, {
-          yPercent: 100,
-          autoAlpha: 0,
-          filter: "blur(10px)",
-        });
 
         const timeline = gsap.timeline();
         timeline
@@ -81,19 +89,6 @@ export default function Home() {
               ease: MOTION_EASE.entrance,
               clearProps: "transform,opacity,visibility",
             },
-          )
-          .to(
-            heroStrips,
-            {
-              yPercent: 0,
-              autoAlpha: 1,
-              filter: "blur(0px)",
-              duration: MOTION_DURATION.image * 0.75 * (mobile ? 0.75 : 1),
-              stagger: MOTION_STAGGER.strip,
-              ease: MOTION_EASE.image,
-              clearProps: "transform,opacity,visibility,filter",
-            },
-            "-=0.45",
           )
           .to(
             heroImageInner,
@@ -220,16 +215,19 @@ export default function Home() {
   return (
     <main id="top" ref={mainRef}>
         <section className="hero">
-          <RevealImage
-            className="hero-image home-hero-image"
-            src="/images/hero.jpg"
-            alt="Modern illuminated architectural tower"
-            variant="strips"
-            trigger="external"
-            aspectRatio="16 / 9"
-            priority
-            hover={false}
-          />
+          <div className="hero-image home-hero-image">
+            <video
+              className="hero-video"
+              src="/video/hero.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              data-motion-hero
+              aria-hidden="true"
+            />
+          </div>
           <div className="hero-content">
             <p className="hero-kicker">Architecture for tomorrow</p>
             <h1 aria-label="Elevating the skyline">
@@ -268,7 +266,7 @@ export default function Home() {
         </section>
 
         <section className="featured" id="projects">
-          <Image src="/images/project1.jpg" alt="Contemporary residential development" fill sizes="100vw" />
+          <Image src="/images/project2.jpg" alt="Contemporary residential development" fill sizes="100vw" />
           <div className="featured-overlay">
             <div className="featured-top">
               <p className="eyebrow">Featured project</p>
@@ -292,11 +290,11 @@ export default function Home() {
           </div>
           <div className="project-grid">
             <article className="project-card">
-              <Image src="/images/project2.jpg" alt="Aurelia courtyard residence" fill sizes="60vw" />
+              <video className="project-video" src={projectVideos[0]} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
               <div className="project-info"><div><h3>Courtyard House</h3><span>Residential · 2025</span></div><span>01</span></div>
             </article>
             <article className="project-card small">
-              <Image src="/images/project3.jpg" alt="Aurelia lakeside apartments" fill sizes="40vw" />
+              <video className="project-video" src={projectVideos[1]} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
               <div className="project-info"><div><h3>North Ridge</h3><span>Residential · 2024</span></div><span>02</span></div>
             </article>
           </div>

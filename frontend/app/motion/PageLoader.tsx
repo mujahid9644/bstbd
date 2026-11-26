@@ -1,6 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { MOTION_DURATION, MOTION_EASE } from "./motion.config";
 
@@ -9,23 +10,30 @@ function dispatchLoaderExit() {
   window.dispatchEvent(new CustomEvent("motion:loader-exit"));
 }
 
-function waitForHeroImage() {
-  const image = document.querySelector<HTMLImageElement>("[data-motion-hero]");
-  if (!image || image.complete) return Promise.resolve();
+function waitForHeroMedia() {
+  const hero = document.querySelector<HTMLImageElement | HTMLVideoElement>(
+    "[data-motion-hero]",
+  );
+  if (!hero) return Promise.resolve();
+  const isVideo = hero instanceof HTMLVideoElement;
+  if (isVideo ? hero.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA : hero.complete) {
+    return Promise.resolve();
+  }
+
   return new Promise<void>((resolve) => {
     const finish = () => {
       window.clearTimeout(timeout);
-      image.removeEventListener("load", finish);
-      image.removeEventListener("error", finish);
+      hero.removeEventListener(isVideo ? "loadeddata" : "load", finish);
+      hero.removeEventListener("error", finish);
       resolve();
     };
     const timeout = window.setTimeout(finish, 8000);
-    image.addEventListener("load", finish, { once: true });
-    image.addEventListener("error", finish, { once: true });
+    hero.addEventListener(isVideo ? "loadeddata" : "load", finish, { once: true });
+    hero.addEventListener("error", finish, { once: true });
   });
 }
 
-export default function PageLoader({ logo = "BUILDING SOLUTIONS" }: { logo?: string }) {
+export default function PageLoader() {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -62,7 +70,7 @@ export default function PageLoader({ logo = "BUILDING SOLUTIONS" }: { logo?: str
     const revealPage = async () => {
       await Promise.all([
         document.fonts?.ready ?? Promise.resolve(),
-        waitForHeroImage(),
+        waitForHeroMedia(),
       ]);
       const remaining =
         MOTION_DURATION.loaderMinimum - (performance.now() - startedAt) / 1000;
@@ -99,7 +107,24 @@ export default function PageLoader({ logo = "BUILDING SOLUTIONS" }: { logo?: str
       className="page-loader"
       aria-hidden="true"
     >
-      <span className="page-loader-logo">{logo}</span>
+      <span className="page-loader-logo">
+        <Image
+          className="page-loader-logo-base"
+          src="/images/logo1.png"
+          alt=""
+          width={300}
+          height={93}
+          priority
+        />
+        <Image
+          className="page-loader-logo-color"
+          src="/images/logo1.png"
+          alt=""
+          width={300}
+          height={93}
+          priority
+        />
+      </span>
       <span className="page-loader-rule" />
     </div>
   );

@@ -22,14 +22,15 @@ img { display: block; max-width: 100%; }
   .site-header { transition: opacity .12s ease, background-color .12s ease, backdrop-filter .12s ease; }
   .site-header.is-hidden { transform: none; }
 }
-.brand { display: flex; align-items: center; gap: 12px; font-size: 13px; letter-spacing: .26em; font-weight: 700; }
-.brand-mark { width: 43px; height: 43px; border: 1px solid currentColor; border-radius: 50%; display: grid; place-items: center; font-family: Georgia, serif; font-size: 21px; letter-spacing: 0; }
+.brand { display: flex; align-items: center; }
+.brand-logo { width: 170px; height: auto; object-fit: contain; }
 .menu-button { border: 0; background: transparent; color: white; display: flex; align-items: center; gap: 14px; font-size: 12px; letter-spacing: .22em; cursor: pointer; }
 .menu-lines { width: 24px; height: 12px; display: flex; flex-direction: column; justify-content: space-between; }
 .menu-lines i { height: 1px; background: currentColor; width: 100%; }
 
 .hero { height: min(880px, 100vh); min-height: 680px; position: relative; display: flex; align-items: flex-end; overflow: hidden; color: white; }
 .hero-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: heroZoom 16s ease-out both; }
+.hero-video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,18,18,.62) 0%, rgba(10,18,18,.12) 70%), linear-gradient(0deg, rgba(10,18,18,.48), transparent 45%); }
 .hero-content { position: relative; z-index: 2; width: 100%; padding: 0 7vw 9vh; }
 .hero-kicker { font-size: 12px; letter-spacing: .38em; text-transform: uppercase; margin-bottom: 22px; }
@@ -58,8 +59,9 @@ img { display: block; max-width: 100%; }
 .project-card { position: relative; min-height: 620px; overflow: hidden; color: white; }
 .project-card.small { min-height: 620px; }
 .project-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.project-card .project-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
 @media (hover: hover) {
-  .project-card:hover img { transform: scale(1.025); }
+  .project-card:hover img, .project-card:hover .project-video { transform: scale(1.025); }
 }
 .project-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(10,10,8,.72), transparent 55%); }
 .project-info { position: absolute; z-index: 2; left: 38px; right: 38px; bottom: 34px; display: flex; justify-content: space-between; align-items: end; }
@@ -116,7 +118,7 @@ img { display: block; max-width: 100%; }
 @media (max-width: 600px) {
   .section { padding: 88px 24px; }
   .site-header { padding: 0 24px; }
-  .brand span:last-child { display: none; }
+  .brand-logo { width: 145px; }
   .hero { min-height: 600px; }
   .hero h1 { font-size: 54px; }
   .featured-overlay { padding: 32px 24px 40px; }
