@@ -298,7 +298,8 @@ export default function SlideNav({
                 data-magnetic
                 onClick={goBack}
               >
-                <span aria-hidden="true">‹</span> BACK
+                <span aria-hidden="true">‹</span>
+                <span className="slide-nav-label">BACK</span>
               </button>
             )}
           </div>
@@ -310,7 +311,7 @@ export default function SlideNav({
             data-magnetic
             onClick={closeMenu}
           >
-            <span>CLOSE</span>
+            <span className="slide-nav-label">CLOSE</span>
             <span className="slide-nav-close-icon" aria-hidden="true">×</span>
           </button>
         </div>
@@ -343,7 +344,9 @@ export default function SlideNav({
                 <span id="slide-nav-main-label" className="sr-only">Main navigation</span>
                 <ul className="slide-nav-list" key={`main-${entrance}`} ref={mainListRef}>
                   <li style={{ "--item-index": 0 } as CSSProperties}>
-                    <Link href="/" data-cursor="link" onClick={closeMenu}>Home</Link>
+                    <Link href="/" data-cursor="link" onClick={closeMenu}>
+                      <span className="slide-nav-label">Home</span>
+                    </Link>
                   </li>
                   {items.map((item, index) => (
                     <li
@@ -361,12 +364,12 @@ export default function SlideNav({
                           data-magnetic
                           onClick={() => openSubmenu(item)}
                         >
-                          <span>{item.label}</span>
+                          <span className="slide-nav-label">{item.label}</span>
                           <span className="slide-nav-chevron" aria-hidden="true">›</span>
                         </button>
                       ) : (
                         <Link href={item.href} data-cursor="link" onClick={closeMenu}>
-                          {item.label}
+                          <span className="slide-nav-label">{item.label}</span>
                         </Link>
                       )}
                     </li>
@@ -376,7 +379,7 @@ export default function SlideNav({
                     style={{ "--item-index": items.length + 1 } as CSSProperties}
                   >
                     <Link href="/privacy-policy" data-cursor="link" onClick={closeMenu}>
-                      Privacy Policy
+                      <span className="slide-nav-label">Privacy Policy</span>
                     </Link>
                   </li>
                 </ul>
@@ -405,7 +408,7 @@ export default function SlideNav({
                     data-cursor="link"
                     onClick={closeMenu}
                   >
-                    {renderedParent.label}
+                    <span className="slide-nav-label">{renderedParent.label}</span>
                   </Link>
                   <ul className="slide-nav-list slide-nav-child-list" ref={submenuListRef}>
                     {renderedParent.children?.map((child, index) => (
@@ -414,7 +417,7 @@ export default function SlideNav({
                         style={{ "--item-index": index } as CSSProperties}
                       >
                         <Link href={child.href} data-cursor="link" onClick={closeMenu}>
-                          {child.label}
+                          <span className="slide-nav-label">{child.label}</span>
                         </Link>
                       </li>
                     ))}

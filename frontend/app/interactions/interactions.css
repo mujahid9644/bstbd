@@ -25,7 +25,7 @@
   }
   .custom-cursor {
     position: fixed;
-    z-index: 300;
+    z-index: 1000;
     inset: 0;
     pointer-events: none;
     mix-blend-mode: difference;
@@ -37,9 +37,10 @@
     position: fixed;
     top: 0;
     left: 0;
+    width: 40px;
+    height: 40px;
     display: grid;
     place-items: center;
-    border-radius: 50%;
     will-change: transform;
   }
 
@@ -47,21 +48,29 @@
     z-index: 2;
     width: 8px;
     height: 8px;
+    border-radius: 50%;
     background: white;
-    transition: opacity var(--interaction-fast) ease, scale var(--interaction-fast) var(--interaction-ease);
+    transition: opacity var(--interaction-fast) ease;
   }
 
   .custom-cursor__ring {
-    width: 40px;
-    height: 40px;
+    transform-origin: center;
+  }
+
+  .custom-cursor__ring-visual {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
     border: 1.5px solid white;
+    border-radius: 50%;
+    transform: scale(1);
+    transform-origin: center;
     transition:
-      width var(--interaction-medium) var(--interaction-ease),
-      height var(--interaction-medium) var(--interaction-ease),
+      transform var(--interaction-medium) var(--interaction-ease),
       background-color var(--interaction-medium) var(--interaction-ease),
       border-color var(--interaction-medium) var(--interaction-ease),
-      opacity var(--interaction-fast) ease,
-      scale var(--interaction-fast) var(--interaction-ease);
+      opacity var(--interaction-fast) ease;
   }
 
   .custom-cursor__label {
@@ -73,19 +82,13 @@
     white-space: nowrap;
   }
 
-  html[data-cursor-mode="link"] .custom-cursor__ring {
-    width: 64px;
-    height: 64px;
+  html[data-cursor-mode="link"] .custom-cursor__ring-visual {
+    transform: scale(1.6);
   }
 
-  html[data-cursor-mode="link"] .custom-cursor__dot {
-    scale: 0.5;
-  }
-
-  html[data-cursor-mode="view"] .custom-cursor__ring,
-  html[data-cursor-mode="drag"] .custom-cursor__ring {
-    width: 90px;
-    height: 90px;
+  html[data-cursor-mode="view"] .custom-cursor__ring-visual,
+  html[data-cursor-mode="drag"] .custom-cursor__ring-visual {
+    transform: scale(2.25);
     border-color: var(--interaction-accent);
     background-color: var(--interaction-accent);
   }
@@ -96,19 +99,14 @@
   }
 
   html[data-cursor-mode="hide"] .custom-cursor__dot,
-  html[data-cursor-mode="hide"] .custom-cursor__ring,
+  html[data-cursor-mode="hide"] .custom-cursor__ring-visual,
   html[data-cursor-outside="true"] .custom-cursor__dot,
-  html[data-cursor-outside="true"] .custom-cursor__ring {
+  html[data-cursor-outside="true"] .custom-cursor__ring-visual {
     opacity: 0;
   }
 
-  html[data-cursor-pressed="true"] .custom-cursor__ring {
-    scale: 0.85;
-  }
-
-  .custom-cursor__dot,
-  .custom-cursor__ring {
-    transform-origin: center;
+  html[data-cursor-pressed="true"] .custom-cursor__ring-visual {
+    transform: scale(0.85);
   }
 
   .custom-cursor {
@@ -117,10 +115,6 @@
 
   html.has-custom-cursor .custom-cursor {
     visibility: visible;
-  }
-
-  .custom-cursor__ring {
-    transform-origin: center;
   }
 
   .custom-cursor__ring,
@@ -442,13 +436,11 @@
   }
 
   .menu-button,
-  .slide-nav-item-button {
-    position: relative;
-    isolation: isolate;
-  }
-
   .slide-nav-close,
-  .slide-nav-back {
+  .slide-nav-back,
+  .slide-nav-item-button,
+  .slide-nav-list a,
+  .slide-nav-parent-link {
     position: relative;
     isolation: isolate;
   }
@@ -456,9 +448,11 @@
   .menu-button::before,
   .slide-nav-close::before,
   .slide-nav-back::before,
-  .slide-nav-item-button::before {
+  .slide-nav-item-button::before,
+  .slide-nav-list a::before,
+  .slide-nav-parent-link::before {
     position: absolute;
-    z-index: -1;
+    z-index: 0;
     inset: 0;
     background: var(--interaction-accent);
     content: "";
@@ -467,10 +461,43 @@
   }
 
   .menu-button:hover::before,
+  .menu-button:focus-visible::before,
   .slide-nav-close:hover::before,
+  .slide-nav-close:focus-visible::before,
   .slide-nav-back:hover::before,
-  .slide-nav-item-button:hover::before {
+  .slide-nav-back:focus-visible::before,
+  .slide-nav-item-button:hover::before,
+  .slide-nav-item-button:focus-visible::before,
+  .slide-nav-list a:hover::before,
+  .slide-nav-list a:focus-visible::before,
+  .slide-nav-parent-link:hover::before,
+  .slide-nav-parent-link:focus-visible::before {
     clip-path: inset(0);
+  }
+
+  .menu-button > span,
+  .slide-nav-close > span,
+  .slide-nav-back > span,
+  .slide-nav-item-button > span,
+  .slide-nav-list a > .slide-nav-label,
+  .slide-nav-parent-link > .slide-nav-label {
+    position: relative;
+    z-index: 1;
+  }
+
+  .menu-button:hover,
+  .menu-button:focus-visible,
+  .slide-nav-close:hover,
+  .slide-nav-close:focus-visible,
+  .slide-nav-back:hover,
+  .slide-nav-back:focus-visible,
+  .slide-nav-item-button:hover,
+  .slide-nav-item-button:focus-visible,
+  .slide-nav-list a:hover,
+  .slide-nav-list a:focus-visible,
+  .slide-nav-parent-link:hover,
+  .slide-nav-parent-link:focus-visible {
+    color: var(--interaction-ink);
   }
 }
 
@@ -596,6 +623,10 @@
 }
 
 @media (hover: none) {
+  .custom-cursor {
+    display: none !important;
+  }
+
   .social-link:active {
     transform: scale(0.94);
     transition-duration: 0.1s;
@@ -604,7 +635,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .custom-cursor__dot,
-  .custom-cursor__ring,
+  .custom-cursor__ring-visual,
   .social-link,
   .social-link svg,
   .business-card img,
@@ -620,11 +651,12 @@
     animation-duration: 0.01ms !important;
   }
 
-  .custom-cursor__dot,
-  .custom-cursor__ring,
-  html[data-cursor-mode="link"] .custom-cursor__dot,
-  html[data-cursor-pressed="true"] .custom-cursor__ring {
-    scale: 1 !important;
+  .custom-cursor__ring-visual,
+  html[data-cursor-mode="link"] .custom-cursor__ring-visual,
+  html[data-cursor-mode="view"] .custom-cursor__ring-visual,
+  html[data-cursor-mode="drag"] .custom-cursor__ring-visual,
+  html[data-cursor-pressed="true"] .custom-cursor__ring-visual {
+    transform: scale(1) !important;
   }
 
   .slide-nav-panel.is-open .social-links--menu li {

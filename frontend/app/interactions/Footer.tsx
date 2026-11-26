@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { navigation } from "../../src/data/navigation";
+import { contactInfo } from "../../src/data/contact-info";
 import SocialLinks from "./SocialLinks";
 
 export default function Footer() {
@@ -33,9 +34,9 @@ export default function Footer() {
         <SocialLinks variant="footer" />
         <div className="footer-contact">
           <h2>Contact</h2>
-          <p>Level 18, Meridian Tower<br />Dhaka 1212, Bangladesh</p>
-          <p><a href="tel:+8800000000000">+880 0000 000000</a></p>
-          <p><a href="mailto:hello@aureliaproperties.com">hello@aureliaproperties.com</a></p>
+          <p>{contactInfo.address}</p>
+          <p><a href={`tel:${contactInfo.phone}`}>{contactInfo.phoneDisplay}</a></p>
+          <p><a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a></p>
         </div>
       </div>
       <div className="footer-bottom">

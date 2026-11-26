@@ -1,17 +1,20 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import useMagnetic from "./useMagnetic";
 
 type CursorMode = "default" | "link" | "view" | "drag" | "hide";
 
 const CURSOR_SELECTOR =
   "a, button, [role='button'], .project-card, .business-card, .listing-card, .hero-slide, [data-cursor]";
+const MAX_RING_DISTANCE = 8;
 
 export default function Cursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const [enabled, setEnabled] = useState(false);
+  const pathname = usePathname();
   useMagnetic();
 
   useEffect(() => {
@@ -40,6 +43,7 @@ export default function Cursor() {
     let ringY = pointerY;
     let frame = 0;
     let mode: CursorMode = "default";
+    root.dataset.cursorOutside = "true";
 
     const render = () => {
       frame = 0;
@@ -47,13 +51,20 @@ export default function Cursor() {
         ringX = pointerX;
         ringY = pointerY;
       } else {
-        ringX += (pointerX - ringX) * 0.15;
-        ringY += (pointerY - ringY) * 0.15;
+        ringX += (pointerX - ringX) * 0.45;
+        ringY += (pointerY - ringY) * 0.45;
+        const distanceX = pointerX - ringX;
+        const distanceY = pointerY - ringY;
+        const distance = Math.hypot(distanceX, distanceY);
+        if (distance > MAX_RING_DISTANCE) {
+          ringX = pointerX - (distanceX / distance) * MAX_RING_DISTANCE;
+          ringY = pointerY - (distanceY / distance) * MAX_RING_DISTANCE;
+        }
       }
 
       dot.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0) translate(-50%, -50%)`;
       ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-      if (Math.abs(pointerX - ringX) + Math.abs(pointerY - ringY) > 0.2) {
+      if (Math.hypot(pointerX - ringX, pointerY - ringY) > 0.05) {
         frame = window.requestAnimationFrame(render);
       }
     };
@@ -71,6 +82,7 @@ export default function Cursor() {
     const onPointerMove = (event: PointerEvent) => {
       pointerX = event.clientX;
       pointerY = event.clientY;
+      delete root.dataset.cursorOutside;
       requestRender();
       const target = event.target instanceof Element ? event.target : null;
       const interactive = target?.closest(CURSOR_SELECTOR);
@@ -104,18 +116,24 @@ export default function Cursor() {
     const onWindowLeave = () => {
       root.dataset.cursorOutside = "true";
       delete root.dataset.cursorPressed;
+      setMode("default");
     };
-    const onWindowEnter = () => {
+    const onWindowEnter = (event: MouseEvent) => {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      ringX = pointerX;
+      ringY = pointerY;
       delete root.dataset.cursorOutside;
+      setMode("default");
+      requestRender();
     };
 
     document.addEventListener("pointermove", onPointerMove, { passive: true });
     document.addEventListener("mousedown", onMouseDown, { passive: true });
     document.addEventListener("mouseup", onMouseUp, { passive: true });
     window.addEventListener("blur", onWindowLeave);
-    window.addEventListener("focus", onWindowEnter);
-    document.documentElement.addEventListener("mouseleave", onWindowLeave);
-    document.documentElement.addEventListener("mouseenter", onWindowEnter);
+    document.addEventListener("mouseleave", onWindowLeave);
+    document.addEventListener("mouseenter", onWindowEnter);
     requestRender();
 
     return () => {
@@ -123,24 +141,25 @@ export default function Cursor() {
       document.removeEventListener("mousedown", onMouseDown);
       document.removeEventListener("mouseup", onMouseUp);
       window.removeEventListener("blur", onWindowLeave);
-      window.removeEventListener("focus", onWindowEnter);
-      document.documentElement.removeEventListener("mouseleave", onWindowLeave);
-      document.documentElement.removeEventListener("mouseenter", onWindowEnter);
+      document.removeEventListener("mouseleave", onWindowLeave);
+      document.removeEventListener("mouseenter", onWindowEnter);
       if (frame) window.cancelAnimationFrame(frame);
       delete root.dataset.cursorMode;
       delete root.dataset.cursorPressed;
       delete root.dataset.cursorOutside;
       root.classList.remove("has-custom-cursor");
     };
-  }, [enabled]);
+  }, [enabled, pathname]);
 
   if (!enabled) return null;
   return (
     <div className="custom-cursor" aria-hidden="true">
       <div className="custom-cursor__dot" ref={dotRef} />
       <div className="custom-cursor__ring" ref={ringRef}>
-        <span className="custom-cursor__label custom-cursor__label--view">View</span>
-        <span className="custom-cursor__label custom-cursor__label--drag">←&nbsp; Drag &nbsp;→</span>
+        <div className="custom-cursor__ring-visual">
+          <span className="custom-cursor__label custom-cursor__label--view">View</span>
+          <span className="custom-cursor__label custom-cursor__label--drag">←&nbsp; Drag &nbsp;→</span>
+        </div>
       </div>
     </div>
   );

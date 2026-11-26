@@ -289,9 +289,14 @@
     transform 0.22s ease;
 }
 
-.slide-nav-list a:hover,
-.slide-nav-item-button:hover {
-  color: var(--slide-nav-accent);
+.slide-nav-list a:hover {
+  color: var(--slide-nav-bg);
+  transform: translateX(4px);
+}
+
+.slide-nav-item-button:hover,
+.slide-nav-item-button:focus-visible {
+  color: var(--slide-nav-bg);
   transform: translateX(4px);
 }
 

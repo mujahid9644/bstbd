@@ -1,3 +1,5 @@
+import { contactInfo } from "../../src/data/contact-info";
+
 export const SCROLL_UI_CONFIG = {
   directionThreshold: 8,
   headerAlwaysVisibleBelow: 80,
@@ -13,6 +15,6 @@ export const SCROLL_UI_CONFIG = {
   edgeOffset: 24,
   buttonGap: 16,
   scrollToTopDuration: 1,
-  whatsappPhoneNumber: "8801XXXXXXXXX",
-  whatsappDefaultMessage: "Hello, I'd like to know more.",
+  whatsappPhoneNumber: contactInfo.whatsapp.replace(/^\+/, ""),
+  whatsappDefaultMessage: contactInfo.whatsappMessage,
 } as const;

@@ -7,6 +7,13 @@ export const navigation: NavigationItem[] = [
     { label: 'Our Team', href: '/about-us/our-teams' },
     { label: 'Why Aurelia', href: '/about-us/why-shanta' },
   ] },
+  { label: 'Services', href: '/services', children: [
+    { label: 'Site Feasibility & Placement', href: '/services#site-feasibility' },
+    { label: 'Master Planning & Mapping', href: '/services#master-planning' },
+    { label: 'Residential & Commercial Build', href: '/services#build' },
+    { label: 'Road & Infrastructure Development', href: '/services#road-infrastructure' },
+    { label: 'Turnkey Execution', href: '/services#turnkey' },
+  ] },
   { label: 'Projects', href: '/projects' },
   { label: 'Life at Aurelia', href: '/life-at-shanta' },
   { label: 'Careers', href: '/career' },

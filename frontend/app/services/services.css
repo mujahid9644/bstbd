@@ -1,0 +1,123 @@
+.services-page a:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 4px;
+}
+
+.services-page .services-catalog {
+  background: #e7e2d6;
+}
+
+.services-catalog > .eyebrow {
+  margin-bottom: 48px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 52px 32px;
+}
+
+.service-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  scroll-margin-top: 120px;
+}
+
+.service-icon {
+  margin-bottom: 22px;
+  color: var(--green);
+}
+
+.service-card h2 {
+  margin: 0 0 16px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(26px, 2.4vw, 34px);
+  font-weight: 400;
+  line-height: 1.08;
+}
+
+.service-card p {
+  margin: 0 0 24px;
+  color: #66665f;
+  line-height: 1.75;
+}
+
+.service-card .text-link {
+  margin-top: auto;
+}
+
+.services-process {
+  background: var(--cream);
+}
+
+.services-process .section-heading {
+  margin: 0 0 48px;
+}
+
+.services-process-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.services-process-steps li {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.2;
+}
+
+.services-cta {
+  min-height: 360px;
+}
+
+.services-cta .section-heading {
+  max-width: 1000px;
+  margin: 0 0 36px;
+  color: white;
+}
+
+.services-cta a:focus-visible {
+  outline-color: var(--cream);
+}
+
+@media (max-width: 900px) {
+  .services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .services-process-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .services-grid,
+  .services-process-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .services-catalog > .eyebrow,
+  .services-process .section-heading {
+    margin-bottom: 32px;
+  }
+
+  .services-grid {
+    gap: 38px;
+  }
+
+  .services-cta {
+    min-height: 0;
+    padding: 58px 24px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.services-page) {
+    scroll-behavior: smooth;
+  }
+}

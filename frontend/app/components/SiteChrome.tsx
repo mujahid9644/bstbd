@@ -37,7 +37,7 @@ export function SiteHeader() {
         data-menu-open={open}
       >
         <Link className="brand" href="/" aria-label="Building Solutions home"><Image className="brand-logo" src="/images/logo1.png" alt="" width={300} height={93} priority /></Link>
-        <button ref={menuButtonRef} className="menu-button" data-cursor="link" data-magnetic onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open}>MENU <span className="menu-lines"><i /><i /></span></button>
+        <button ref={menuButtonRef} className="menu-button" data-cursor="link" data-magnetic onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open}><span className="menu-button-label">MENU</span><span className="menu-lines"><i /><i /></span></button>
       </header>
       <SlideNav items={navigation} open={open} onClose={closeMenu} onSearch={searchProjects} />
     </>

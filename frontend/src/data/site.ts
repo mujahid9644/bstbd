@@ -1,8 +1,10 @@
+import { contactInfo } from "./contact-info";
+
 export const site = {
   name: 'Building Solutions',
   title: 'Building Solutions — Elevating the Urban Skyline',
   description: 'Premium residential and commercial developments shaped for modern living.',
-  address: 'Level 18, Meridian Tower, Dhaka 1212, Bangladesh',
-  phone: '+880 0000 000000',
-  email: 'hello@aureliaproperties.com',
+  address: contactInfo.address,
+  phone: contactInfo.phone,
+  email: contactInfo.email,
 };

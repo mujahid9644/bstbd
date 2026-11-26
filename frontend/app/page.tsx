@@ -12,6 +12,7 @@ import {
   MOTION_STAGGER,
 } from "./motion/motion.config";
 import { registerMotionPlugins } from "./motion/registerMotionPlugins";
+import { contactInfo } from "../src/data/contact-info";
 
 const projectVideoSources = ["/video/building2.mp4", "/video/building1.mp4"] as const;
 
@@ -318,8 +319,8 @@ export default function Home() {
             <h2 className="section-heading">Let&apos;s connect.</h2>
           </div>
           <div className="connect-right">
-            <article className="connect-card"><p className="eyebrow">For clients</p><h3>Find your address</h3><p>Discover residences and commercial spaces created for modern life.</p><a className="text-link" href="mailto:hello@aureliaproperties.com">Enquire <span>→</span></a></article>
-            <article className="connect-card"><p className="eyebrow">For partners</p><h3>Build with us</h3><p>Explore land and investment opportunities with our development team.</p><a className="text-link" href="mailto:partners@aureliaproperties.com">Partner <span>→</span></a></article>
+            <article className="connect-card"><p className="eyebrow">For clients</p><h3>Find your address</h3><p>Discover residences and commercial spaces created for modern life.</p><a className="text-link" href={`mailto:${contactInfo.email}`}>Enquire <span>→</span></a></article>
+            <article className="connect-card"><p className="eyebrow">For partners</p><h3>Build with us</h3><p>Explore land and investment opportunities with our development team.</p><a className="text-link" href={`mailto:${contactInfo.email}`}>Partner <span>→</span></a></article>
           </div>
         </section>
     </main>
